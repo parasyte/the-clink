@@ -1,0 +1,19 @@
+{
+    "providers": {
+        "llama-server": {
+            "baseUrl": "http://llama:9931/v1",
+            "api": "openai-completions",
+            "apiKey": "dummy",
+            "models": [{
+                "id": "unsloth/Qwen3.8-27B-GGUF:UD-Q4_K_XL",
+                "contextWindow": 131072,
+                "maxTokens": 131072
+            }]
+        }
+    },
+    "compaction": {
+        "enabled": true,
+        "reserveTokens": 32768,
+        "keepRecentTokens": 20000
+    }
+}

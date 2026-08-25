@@ -1,0 +1,19 @@
+services:
+  llama:
+    image: the-clink
+    container_name: the-clink-llama
+    init: true
+    build: .
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:9931/health"]
+      interval: 3s
+      start_period: 15s
+      retries: 5
+    restart: always
+    devices:
+      - "nvidia.com/gpu=all"
+    command: [
+      "/home/user/llama/llama-server", "--models-preset", "/home/user/.config/llama.cpp/config.ini",
+    ]
+    ports:
+      - "9931:9931"
