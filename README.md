@@ -3,29 +3,40 @@
 Containerize `pi.dev` and `llama.cpp`.
 
 
-## Configure podman-machine
+# Dependencies
+
+- [Podman Desktop](https://podman-desktop.io/) or [Docker desktop](https://www.docker.com/products/docker-desktop/)
+- [`just`](https://github.com/casey/just)
+
+
+# Usage
+
+## Configure `podman-machine`
 
 > [!IMPORTANT]
-> Do not skip this step. `podman-machine` requires the NVIDIA Container Toolkit to access to your GPU.
+> Podman users: do not skip this step! `podman-machine` requires the NVIDIA Container Toolkit to access to your GPU.
 
 ```bash
-podman machine ssh 'curl -s -L https://nvidia.github.io/libnvidia-container/stable/rpm/nvidia-container-toolkit.repo | \
-    tee /etc/yum.repos.d/nvidia-container-toolkit.repo && \
-    yum install -y nvidia-container-toolkit && \
-    nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml && \
-    nvidia-ctk cdi list'
+just install-nct
 ```
 
 
-## Build the container
-
-Compiling `llama.cpp` needs to access your GPU to auto-detect the native architecture for optimizations.
+## Build all containers
 
 Run within this project's working directory:
 
 ```bash
-podman build --device nvidia.com/gpu=all --tag the-clink .
+just build -v
 ```
+
+
+## Source the `env` script into your shell
+
+The `env` script contains the main `clink` function. Source it into your shell to make it available. There are two options:
+
+1. `just install` will install the env into your non-login shell's rc and source it into your current session.
+
+2. `. $PWD/env` will source the env into your current session only.
 
 
 ## Running the service
@@ -41,17 +52,13 @@ podman compose up -d
 
 ## Running `pi`
 
-Run `pi` in your project directory:
+After sourcing the `env` script into your shell, run `pi` in *your project directory*. `pi` will be given access to all files in the current working directory.
 
 ```bash
-podman run -it --rm --name pi --network the-clink_default \
-    -v "$(echo $HOME | sed 's#^/c/#/c:/#')/.pi/agent/sessions:/home/user/.pi/agent/sessions" \
-    -v "$(echo $PWD | sed 's#^/c/#/c:/#'):/home/user/$(basename $PWD)" \
-    the-clink \
-    bash -l -c "cd /home/user/$(basename $PWD); pi; exec bash -l"
+clink
 ```
 
-<kbd>Ctrl+D</kbd> will exit `pi` to a shell, and <kbd>Ctrl+D</kbd> from the shell will detach from the container. `podman` will automatically restart `pi`. The shell allows use of the `pi` CLI.
+<kbd>Ctrl+D</kbd> will exit `pi` to a shell, and <kbd>Ctrl+D</kbd> from the shell will detach and delete the container. The shell allows use of the `pi` CLI and interacting with the container.
 
 
 ## Tailing `llama.cpp` logs
@@ -63,7 +70,11 @@ podman logs -f the-clink-llama
 
 ## Tips
 
-1. Running `pi` with the long command is no fun. Create a shell alias for it. I called mine `cc`, for Clanker Clink 🤣!
+1. Typing `clink` is no fun. Create a shell alias for it. I called mine `cc`, for Clanker Clink 🤣!
+
+    ```bash
+    alias cc=clink
+    ```
 
 2. Running inference on an RTX 3090 or higher can use a lot of power needlessly. Power limiting the GPU to 250 W or so retains most of the performance at ~70% of the cost.
 

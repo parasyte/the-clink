@@ -1,9 +1,11 @@
 services:
   llama:
-    image: the-clink
+    image: the-clink-llama-cuda
     container_name: the-clink-llama
     init: true
-    build: .
+    build:
+      context: .
+      dockerfile: llama-cuda.containerfile
     healthcheck:
       test: ["CMD", "curl", "-f", "http://127.0.0.1:9931/health"]
       interval: 3s

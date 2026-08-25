@@ -1,0 +1,13 @@
+# Given a Windows-style Unix path starting with `/c/`, add the required semicolon.
+clean_path() {
+    echo $1 | sed 's#^/c/#/c:/#'
+}
+
+clink() {
+    podman run -it --rm --network the-clink_default \
+        --volume "$(clean_path "$HOME")/.pi/agent/sessions:/home/user/.pi/agent/sessions" \
+        --volume "$(clean_path "$PWD"):/home/user/$(basename "$PWD")" \
+        the-clink-pi \
+        bash -c "git config --global --add safe.directory /home/user/$(basename "$PWD"); \
+            cd /home/user/$(basename "$PWD"); pi; exec bash"
+}
