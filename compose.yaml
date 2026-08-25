@@ -15,5 +15,5 @@ services:
     command: [
       "/home/user/llama/llama-server", "--models-preset", "/home/user/.config/llama.cpp/config.ini",
     ]
-    ports:
-      - "9931:9931"
+    expose:
+      - "9931"
