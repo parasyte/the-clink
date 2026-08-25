@@ -21,6 +21,8 @@ podman machine ssh 'curl -s -L https://nvidia.github.io/libnvidia-container/stab
 
 Compiling `llama.cpp` needs to access your GPU to auto-detect the native architecture for optimizations.
 
+Run within this project's working directory:
+
 ```bash
 podman build --device nvidia.com/gpu=all --tag the-clink .
 ```
@@ -30,7 +32,7 @@ podman build --device nvidia.com/gpu=all --tag the-clink .
 
 Install `podman-compose` through [Podman Desktop](https://podman-desktop.io/docs/compose/setting-up-compose) or manually by downloading [a release](https://github.com/docker/compose/releases).
 
-From within your project's working directory:
+Run within this project's working directory:
 
 ```bash
 podman compose up -d
