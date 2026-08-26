@@ -45,6 +45,7 @@ RUN chown -R user:user /home/user
 USER user
 WORKDIR /home/user/app
 
-RUN echo '. /home/user/.cargo/env' >>/home/user/.bashrc
+# Add Rust toolchain to the PATH
+RUN sed -i 's@^# for examples$@# for examples\n\n. /home/user/.cargo/env@' /home/user/.bashrc
 
 CMD ["bash", "-c", "pi; exec bash"]
