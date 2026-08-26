@@ -13,8 +13,6 @@ runtime := env_var_or_default('CRUN', 'podman')
 project := 'the-clink'
 
 # Build a single container.
-#   just _build llama-cuda --device nvidia.com/gpu=all
-#   just _build pi
 [arg("verbose", short="v", value="true")]
 _build name verbose="false" *device_flags:
     @echo "Building container '{{name}}'..."
@@ -23,8 +21,6 @@ _build name verbose="false" *device_flags:
     @{{ if verbose == "true" { "" } else { f"echo 'Build output written to ./build/{{name}}-build.output'" } }}
 
 # Build all containers.
-#   just build      - redirect output to files
-#   just build -v   - stream output to stdout
 [arg("verbose", short="v", value="true")]
 build verbose="false": (_build "llama-cuda" verbose "--device" "nvidia.com/gpu=all") (_build "pi" verbose)
     @echo "The Clanker Clink is ready"
