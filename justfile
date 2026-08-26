@@ -28,17 +28,30 @@ build verbose="false": (_build "llama-cuda" verbose "--device" "nvidia.com/gpu=a
 # Install a shell function into your profile for running the pi container.
 install:
     #!/usr/bin/env bash
-    if [[ -f "$HOME/.bashrc" ]] ; then
-        if [[ -z $(grep "# Added by the-clink" "$HOME/.bashrc") ]] ; then
-            echo "Updating profile: $HOME/.bashrc"
+    ENV_FILE="$HOME/.config/the-clink/env"
+    if [[ ! -r "$ENV_FILE" ]] || \
+        [[ $(sha256sum "$PWD/env" | cut -d' ' -f1) != $(sha256sum "$ENV_FILE" | cut -d' ' -f1) ]]
+    then
+        echo "Copying env script to: $ENV_FILE"
 
-            echo >>"$HOME/.bashrc"
-            echo "# Added by the-clink" >>"$HOME/.bashrc"
-            echo ". $PWD/env" >>"$HOME/.bashrc"
+        mkdir -p $(dirname "$ENV_FILE")
+        cp "$PWD/env" "$ENV_FILE"
+    fi
 
-            . "$PWD/env"
-        else
-            echo "Previous installation detected. Not updating."
+    PROFILE="$HOME/.bashrc"
+    if [[ -f "$PROFILE" ]] ; then
+        if [[ -z $(grep "# Added by the-clink" "$PROFILE") ]] ; then
+            echo "Updating profile: $PROFILE"
+
+            # Note: Using single quotes so $HOME does not get evaluated.
+            echo '' >>"$PROFILE"
+            echo '# Added by the-clink' >>"$PROFILE"
+            echo 'if [[ -f "$HOME/.config/the-clink/env" ]] ; then' >>"$PROFILE"
+            echo '    source "$HOME/.config/the-clink/env"' >>"$PROFILE"
+            echo 'fi' >>"$PROFILE"
+
+            # Source the env script into the current shell.
+            source "$ENV_FILE"
         fi
     fi
 
