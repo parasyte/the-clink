@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "0.84.3",
+  "lastChangelogVersion": "999.999.999",
   "enableInstallTelemetry": false,
   "defaultProvider": "llama-server",
   "defaultModel": "unsloth/Qwen3.8-27B-GGUF:UD-Q4_K_XL",

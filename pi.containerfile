@@ -21,13 +21,13 @@ RUN curl --proto '=https' --tlsv1.2 -fsSL https://sh.rustup.rs | sh -s -- -y
 ENV FD_VERSION=10.4.2
 ENV RG_VERSION=15.2.0
 RUN curl --proto '=https' --tlsv1.2 -fsSL -o "/tmp/fd.tar.gz" \
-        "https://github.com/sharkdp/fd/releases/download/v10.4.2/fd-v${FD_VERSION}-x86_64-unknown-linux-musl.tar.gz" && \
-    tar -xzf /tmp/fd.tar.gz -C /tmp/ "fd-v${FD_VERSION}-x86_64-unknown-linux-musl/fd" && \
-    mv "/tmp/fd-v${FD_VERSION}-x86_64-unknown-linux-musl/fd" /usr/local/bin/ && \
+        "https://github.com/sharkdp/fd/releases/download/v${FD_VERSION}/fd-v${FD_VERSION}-$(uname -m)-unknown-linux-musl.tar.gz" && \
+    tar -xzf /tmp/fd.tar.gz -C /tmp/ "fd-v${FD_VERSION}-$(uname -m)-unknown-linux-musl/fd" && \
+    mv "/tmp/fd-v${FD_VERSION}-$(uname -m)-unknown-linux-musl/fd" /usr/local/bin/ && \
     curl --proto '=https' --tlsv1.2 -fsSL -o "/tmp/rg.tar.gz" \
-        "https://github.com/BurntSushi/ripgrep/releases/download/15.2.0/ripgrep-${RG_VERSION}-x86_64-unknown-linux-musl.tar.gz" && \
-    tar -xzf /tmp/rg.tar.gz -C /tmp/ "ripgrep-${RG_VERSION}-x86_64-unknown-linux-musl/rg" && \
-    mv "/tmp/ripgrep-${RG_VERSION}-x86_64-unknown-linux-musl/rg" /usr/local/bin/
+        "https://github.com/BurntSushi/ripgrep/releases/download/${RG_VERSION}/ripgrep-${RG_VERSION}-$(uname -m)-unknown-linux-musl.tar.gz" && \
+    tar -xzf /tmp/rg.tar.gz -C /tmp/ "ripgrep-${RG_VERSION}-$(uname -m)-unknown-linux-musl/rg" && \
+    mv "/tmp/ripgrep-${RG_VERSION}-$(uname -m)-unknown-linux-musl/rg" /usr/local/bin/
 
 # Install pi.dev
 RUN curl --proto '=https' --tlsv1.2 -fsSL https://pi.dev/install.sh | sh
