@@ -32,27 +32,44 @@ just build -v
 
 ## Source the `env` script into your shell
 
-The `env` script contains the main `clink` function. Source it into your shell to make it available. There are two options:
+The `env` script contains the main `clink` function. Source it into your shell to make it available:
 
-1. `just install` will install the env into your non-login shell's rc and source it into your current session.
+1. `just install` will install the `env` script and update your non-login shell's rc to source it automatically.
+2. `source ~/.config/the-clink/env` to activate the-clink in your current shell. This will have to be done after updating the `env` script with `just install`.
 
-2. `. $PWD/env` will source the env into your current session only.
 
-
-## Running the service
+## Starting the service
 
 Install `podman-compose` through [Podman Desktop](https://podman-desktop.io/docs/compose/setting-up-compose) or manually by downloading [a release](https://github.com/docker/compose/releases).
 
 Run within this project's working directory:
 
 ```bash
-podman compose up -d
+just up
+```
+
+
+## Stopping the service
+
+When you are ready to stop the service, run within this project's working directory:
+
+```bash
+just down
+```
+
+
+## Running the benchmark
+
+Run within this project's working directory with the service started:
+
+```bash
+just bench
 ```
 
 
 ## Running `pi`
 
-After sourcing the `env` script into your shell, run `pi` in *your project directory*. `pi` will be given access to all files in the current working directory.
+After sourcing the `env` script into your shell and with the service started, run `pi` in *your project directory*. `pi` will be given access to all files in the current working directory.
 
 ```bash
 clink
@@ -76,12 +93,12 @@ podman logs -f the-clink-llama
     alias cc=clink
     ```
 
-2. Running inference on an RTX 3090 or higher can use a lot of power needlessly. Power limiting the GPU to 250 W or so retains most of the performance at ~70% of the cost.
+2. Running inference on an RTX 3090 or higher can use a lot of power needlessly. Power limiting the GPU to 290 W or so retains most of the performance at ~83% of the cost.
 
     Run as Administrator in a Windows terminal:
 
     ```bash
-    nvidia-smi -pl 250
+    nvidia-smi -pl 290
     ```
 
 3. The default `llama.cpp` config is optimized for a single 3090. You can replace it and rebuild the image quickly. `podman` will reuse the cached layers containing the model, CUDA Toolkit, and `llama.cpp`.

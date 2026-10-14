@@ -1,13 +1,36 @@
 {
     "providers": {
         "llama-server": {
-            "baseUrl": "http://llama:9931/v1",
+            "baseUrl": "http://host.containers.internal:9931/v1",
             "api": "openai-completions",
             "apiKey": "dummy",
             "models": [{
                 "id": "unsloth/Qwen3.8-27B-GGUF:UD-Q4_K_XL",
-                "contextWindow": 131072,
-                "maxTokens": 131072
+                "contextWindow": 131072
+            }]
+        },
+        "vllm": {
+            "baseUrl": "http://model.api:8001/v1",
+            "api": "openai-completions",
+            "apiKey": "dummy",
+            "models": [{
+                "id": "Qwen/Qwen3.8-Flash-Next-FP8",
+                "contextWindow": 1048576
+            },{
+                "id": "b300",
+                "contextWindow": 1048576
+            },{
+                "id": "Qwen/Qwen3.8-27B-FP8",
+                "contextWindow": 1000000
+            },{
+                "id": "rtx6000",
+                "contextWindow": 1000000
+            },{
+                "id": "glm-5.3",
+                "contextWindow": 1048576
+            },{
+                "id": "qwen27b-b300x4",
+                "contextWindow": 262144
             }]
         }
     },

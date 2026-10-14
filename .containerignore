@@ -4,3 +4,6 @@
 # Except the config files
 !.pi/
 !llama/
+
+# Never include node_modules, even within the allowed directories
+node_modules/

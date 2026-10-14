@@ -15,7 +15,23 @@ services:
     devices:
       - "nvidia.com/gpu=all"
     command: [
-      "/home/user/llama/llama-server", "--models-preset", "/home/user/.config/llama.cpp/config.ini",
+      "/usr/local/bin/llama-server", "--models-preset", "/home/user/.config/llama.cpp/config.ini",
     ]
-    expose:
-      - "9931"
+    ports:
+      - "9931:9931"
+
+  meilisearch:
+    image: getmeili/meilisearch:v1.53.1
+    container_name: the-clink-meilisearch
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:7700/health"]
+      interval: 3s
+      start_period: 5s
+      retries: 5
+    restart: always
+    environment:
+      MEILI_NO_ANALYTICS: "true"
+    volumes:
+      - $HOME/.config/meilisearch:/meili_data
+    ports:
+      - "7700:7700"

@@ -22,13 +22,14 @@ _build name verbose="false" *device_flags:
 
 # Build all containers.
 [arg("verbose", short="v", value="true")]
-build verbose="false": (_build "llama-cuda" verbose "--device" "nvidia.com/gpu=all") (_build "pi" verbose)
+build verbose="false": (_build "llama-cuda" verbose "--device" "nvidia.com/gpu=all") (_build "pi" verbose) (_build "llama-benchy" verbose)
     @echo "The Clanker Clink is ready"
 
 # Install a shell function into your profile for running the pi container.
 install:
     #!/usr/bin/env bash
     ENV_FILE="$HOME/.config/the-clink/env"
+    COPIED="false"
     if [[ ! -r "$ENV_FILE" ]] || \
         [[ $(sha256sum "$PWD/env" | cut -d' ' -f1) != $(sha256sum "$ENV_FILE" | cut -d' ' -f1) ]]
     then
@@ -36,6 +37,7 @@ install:
 
         mkdir -p $(dirname "$ENV_FILE")
         cp "$PWD/env" "$ENV_FILE"
+        COPIED="true"
     fi
 
     PROFILE="$HOME/.bashrc"
@@ -49,13 +51,15 @@ install:
             echo 'if [[ -f "$HOME/.config/the-clink/env" ]] ; then' >>"$PROFILE"
             echo '    source "$HOME/.config/the-clink/env"' >>"$PROFILE"
             echo 'fi' >>"$PROFILE"
-
-            # Source the env script into the current shell.
-            source "$ENV_FILE"
         fi
     fi
 
     echo "The Clanker Clink has been installed to your default profile as 'clink'"
+
+    if [[ "$COPIED" == "true" ]] ; then
+        echo "To activate the-clink in the current shell:"
+        echo "    source ~/.config/the-clink/env"
+    fi
 
 # Install the required NVIDIA Container Toolkit dependency.
 install-nct:
@@ -65,6 +69,18 @@ install-nct:
         yum install -y nvidia-container-toolkit && \
         nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml && \
         nvidia-ctk cdi list'
+
+# Bring up the server
+up:
+    @{{runtime}} compose up -d
+
+# Tear down the server
+down:
+    @{{runtime}} compose down
+
+# Run the benchmark
+bench:
+    @{{runtime}} run -it --rm {{project}}-llama-benchy:latest
 
 # Remove all build artifacts.
 clean:

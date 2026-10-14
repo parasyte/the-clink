@@ -1,0 +1,14 @@
+{
+    "name": "pi-meilisearch-rag",
+    "version": "0.1.0",
+    "private": true,
+    "description": "Passive Meilisearch RAG for the pi coding agent",
+    "dependencies": {
+        "meilisearch": "^0.60.0"
+    },
+    "pi": {
+        "extensions": [
+            "./meilisearch-rag.ts"
+        ]
+    }
+}
