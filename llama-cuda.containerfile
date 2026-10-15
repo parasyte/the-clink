@@ -48,6 +48,6 @@ WORKDIR /home/user
 RUN mkdir -p /home/user/.config/llama.cpp
 
 # Copy configuration
-COPY llama/config.ini /home/user/.config/llama.cpp/config.ini
+COPY --chown=user:user llama/config.ini /home/user/.config/llama.cpp/config.ini
 
 CMD ["/usr/local/bin/llama-server", "--models-preset", "/home/user/.config/llama.cpp/config.ini"]

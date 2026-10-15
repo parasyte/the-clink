@@ -55,7 +55,7 @@ ARG PI_VERSION=1.1.0
 RUN . "$NVM_DIR/nvm.sh" && \
     npm install -g --ignore-scripts --omit=dev --no-audit --no-fund \
         "@earendil-works/pi-coding-agent@${PI_VERSION}"
-COPY .pi /home/user/.pi
+COPY --chown=user:user .pi /home/user/.pi
 
 # Install dependencies for the RAG extension
 RUN cd /home/user/.pi/agent/extensions/meilisearch && \
