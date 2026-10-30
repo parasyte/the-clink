@@ -13,7 +13,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Install tools
-ARG FD_VERSION=10.4.2
+ARG FD_VERSION=10.5.0
 ARG RG_VERSION=15.2.0
 RUN curl --proto '=https' --tlsv1.2 -fsSL -o "/tmp/fd.tar.gz" \
         "https://github.com/sharkdp/fd/releases/download/v${FD_VERSION}/fd-v${FD_VERSION}-$(uname -m)-unknown-linux-musl.tar.gz" && \
@@ -30,7 +30,7 @@ USER user
 WORKDIR /home/user
 
 # Install Rust toolchain
-ARG RUST_VERSION=1.99.0
+ARG RUST_VERSION=1.99.1
 # Fastly was extremely slow today.
 # Workaround: https://github.com/rust-lang/rust/issues/119496#issuecomment-1881125322
 ENV RUSTUP_DIST_SERVER=https://cloudfront-static.rust-lang.org
@@ -41,9 +41,9 @@ RUN curl --proto '=https' --tlsv1.2 -fsSL https://sh.rustup.rs | sh -s -- \
 
 # Install nvm and nodejs
 ENV NVM_DIR=/home/user/.nvm
-ARG NVM_VERSION=0.40.7
-ARG NODE_VERSION=24.21.0
-ARG NPM_VERSION=12.2.0
+ARG NVM_VERSION=0.40.8
+ARG NODE_VERSION=26.13.0
+ARG NPM_VERSION=12.2.1
 RUN curl --proto '=https' --tlsv1.2 -fsSL \
         "https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/install.sh" | bash && \
     . "$NVM_DIR/nvm.sh" && \
@@ -51,7 +51,7 @@ RUN curl --proto '=https' --tlsv1.2 -fsSL \
     npm install -g --ignore-scripts --omit=dev --no-audit --no-fund "npm@$NPM_VERSION"
 
 # Install pi.dev
-ARG PI_VERSION=1.1.0
+ARG PI_VERSION=1.4.0
 RUN . "$NVM_DIR/nvm.sh" && \
     npm install -g --ignore-scripts --omit=dev --no-audit --no-fund \
         "@earendil-works/pi-coding-agent@${PI_VERSION}"
