@@ -15,23 +15,11 @@
             "api": "openai-completions",
             "apiKey": "dummy",
             "models": [{
-                "id": "Qwen/Qwen3.8-Flash-Next-FP8",
-                "contextWindow": 1048576
-            },{
-                "id": "b300",
-                "contextWindow": 1048576
-            },{
                 "id": "Qwen/Qwen3.8-27B-FP8",
                 "contextWindow": 1000000
             },{
-                "id": "rtx6000",
-                "contextWindow": 1000000
-            },{
-                "id": "glm-5.3",
-                "contextWindow": 1048576
-            },{
-                "id": "qwen27b-b300x4",
-                "contextWindow": 262144
+                "id": "deepseek-v4.1-flash",
+                "contextWindow": 409600
             }]
         }
     },
