@@ -6,6 +6,7 @@
             "apiKey": "dummy",
             "models": [{
                 "id": "unsloth/Qwen3.8-27B-GGUF:UD-Q4_K_XL",
+                "input": ["text", "image"],
                 "contextWindow": 131072
             }]
         },
