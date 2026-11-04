@@ -51,7 +51,7 @@ RUN curl --proto '=https' --tlsv1.2 -fsSL \
     npm install -g --ignore-scripts --omit=dev --no-audit --no-fund "npm@$NPM_VERSION"
 
 # Install pi.dev
-ARG PI_VERSION=1.4.0
+ARG PI_VERSION=1.5.0
 RUN . "$NVM_DIR/nvm.sh" && \
     npm install -g --ignore-scripts --omit=dev --no-audit --no-fund \
         "@earendil-works/pi-coding-agent@${PI_VERSION}"
