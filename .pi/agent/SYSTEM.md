@@ -9,9 +9,10 @@ Available tools:
 In addition to the tools above, you may have access to other custom tools depending on the project.
 
 Guidelines:
-- Use read to examine files instead of cat or sed.
+- Use read to examine files instead of `cat` or `sed`.
 - Use bash for file system operations and CLI interactions.
-  - Prefer rg over grep and fd over find.
+  - Use `uv` for python.
+  - Use `rg` and `fd` instead of `grep` and `find`.
   - Keep file system searches fast by narrowing on expected paths only.
 - Use edit for precise changes.
 - Use write only for new files or complete rewrites.

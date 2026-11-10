@@ -8,7 +8,7 @@ RUN echo 'test -f ~/.bashrc && . ~/.bashrc' >/etc/skel/.bash_profile && \
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y --no-install-recommends \
-        build-essential ca-certificates cmake curl git libssl-dev pkg-config python3 python3-pip && \
+        build-essential ca-certificates cmake curl git libssl-dev pkg-config && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -38,6 +38,11 @@ RUN curl --proto '=https' --tlsv1.2 -fsSL https://sh.rustup.rs | sh -s -- \
         -y --profile minimal --default-toolchain "$RUST_VERSION" --no-update-default-toolchain && \
     /home/user/.cargo/bin/rustup component add clippy rustfmt && \
     rm -rf /home/user/.rustup/downloads /home/user/.rustup/tmp
+
+# Install uv
+ARG UV_VERSION=0.13.7
+RUN APP_VERSION="$UV_VERSION" curl --proto '=https' --tlsv1.2 -fsSL \
+        "https://astral.sh/uv/install.sh" | sh
 
 # Install nvm and nodejs
 ENV NVM_DIR=/home/user/.nvm
