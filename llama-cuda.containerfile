@@ -31,7 +31,7 @@ RUN curl --proto '=https' --tlsv1.2 -fsSLo /tmp/cuda-keyring_1.1-1_all.deb \
     rm -rf /tmp/*
 
 # Build llama.cpp
-ARG LLAMA_COMMIT=18b5f8b1862ebfe0f1c33d2355b81a54d2fec867
+ARG LLAMA_COMMIT=1d81992784448f66891d1bcde17852e920198f10
 RUN git clone https://github.com/ggml-org/llama.cpp.git /tmp/llama.cpp && \
     git -C /tmp/llama.cpp checkout "${LLAMA_COMMIT}" && \
     cd /tmp/llama.cpp && \
